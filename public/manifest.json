@@ -1,0 +1,24 @@
+{
+  "name": "STACK — by bbmw0",
+  "short_name": "STACK",
+  "description": "An addictive block stacking game with 10 transforming phases, power-ups, and a global leaderboard.",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0A0A1A",
+  "theme_color": "#0A0A1A",
+  "icons": [
+    {
+      "src": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIj48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjEwMCIgZmlsbD0iIzBBMEExQSIvPjxyZWN0IHg9Ijg1IiB5PSIzMjUiIHdpZHRoPSIzNDIiIGhlaWdodD0iNjgiIHJ4PSI4IiBmaWxsPSIjRkY2QjZCIi8+PHJlY3QgeD0iMTA4IiB5PSIyNTAiIHdpZHRoPSIyOTYiIGhlaWdodD0iNjgiIHJ4PSI4IiBmaWxsPSIjRkY4RTUzIi8+PHJlY3QgeD0iMTMxIiB5PSIxNzUiIHdpZHRoPSIyNTAiIGhlaWdodD0iNjgiIHJ4PSI4IiBmaWxsPSIjRkZDNTNEIi8+PHJlY3QgeD0iMTU0IiB5PSIxMDAiIHdpZHRoPSIyMDQiIGhlaWdodD0iNjgiIHJ4PSI4IiBmaWxsPSIjNTFDRjY2Ii8+PC9zdmc+",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxOTIiIGhlaWdodD0iMTkyIj48cmVjdCB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIgcng9IjQwIiBmaWxsPSIjMEEwQTFBIi8+PHJlY3QgeD0iMzIiIHk9IjEyMiIgd2lkdGg9IjEyOCIgaGVpZ2h0PSIyNiIgcng9IjQiIGZpbGw9IiNGRjZCNkIiLz48cmVjdCB4PSI0MSIgeT0iOTQiIHdpZHRoPSIxMTAiIGhlaWdodD0iMjYiIHJ4PSI0IiBmaWxsPSIjRkY4RTUzIi8+PHJlY3QgeD0iNTAiIHk9IjY2IiB3aWR0aD0iOTIiIGhlaWdodD0iMjYiIHJ4PSI0IiBmaWxsPSIjRkZDNTNEIi8+PHJlY3QgeD0iNTkiIHk9IjM4IiB3aWR0aD0iNzQiIGhlaWdodD0iMjYiIHJ4PSI0IiBmaWxsPSIjNTFDRjY2Ii8+PC9zdmc+",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
