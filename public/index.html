@@ -13,6 +13,7 @@
 <meta property="og:title" content="STACK — by bbmw0">
 <meta property="og:description" content="An addictive stacking game that transforms as you climb. 10 phases, power-ups, and a global leaderboard. Can you reach the Cosmos?">
 <meta property="og:type" content="website">
+<link rel="manifest" href="/manifest.json">
 <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxODAiIGhlaWdodD0iMTgwIj48cmVjdCB3aWR0aD0iMTgwIiBoZWlnaHQ9IjE4MCIgcng9IjQwIiBmaWxsPSIjMEEwQTFBIi8+PHJlY3QgeD0iMzAiIHk9IjExNSIgd2lkdGg9IjEyMCIgaGVpZ2h0PSIyNCIgcng9IjQiIGZpbGw9IiNGRjZCNkIiLz48cmVjdCB4PSIzOCIgeT0iODkiIHdpZHRoPSIxMDQiIGhlaWdodD0iMjQiIHJ4PSI0IiBmaWxsPSIjRkY4RTUzIi8+PHJlY3QgeD0iNDYiIHk9IjYzIiB3aWR0aD0iODgiIGhlaWdodD0iMjQiIHJ4PSI0IiBmaWxsPSIjRkZDNTNEIi8+PHJlY3QgeD0iNTQiIHk9IjM3IiB3aWR0aD0iNzIiIGhlaWdodD0iMjQiIHJ4PSI0IiBmaWxsPSIjNTFDRjY2Ii8+PC9zdmc+">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -458,11 +459,14 @@ btn("bRe",startG);btn("bHo",goH);btn("bSS",shareS);btn("bSL",shareG);btn("bNP",o
 btn("bNS",function(){const v=$("pNI").value.trim();if(v){D.name=v;sv(D);rP();uAv()}});
 ["bG","bA","bL"].forEach(function(id){btn(id,function(){alert("Sign-in requires a backend server.\nSee DEPLOY.md for instructions.")})});
 btn("bRst",function(){if(confirm("Reset all data?")){D={...DEF};sv(D);rP();uAv()}});
-btn("bCof",function(){window.open("https://buymeacoffee.com","_blank")});
+btn("bCof",function(){window.location.href="https://buymeacoffee.com/bbmw0"});
 
 document.addEventListener("dblclick",function(e){e.preventDefault()});
 uAv();$("dBs").textContent=D.bs;
 })();
+</script>
+<script>
+if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(()=>{})}
 </script>
 </body>
 </html>
