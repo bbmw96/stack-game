@@ -4,163 +4,124 @@ const session = require("express-session");
 const passport = require("passport");
 const path = require("path");
 const os = require("os");
-const { stmts } = require("./database");
+const { db, stmts } = require("./database");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 const BASE_URL = process.env.BASE_URL || `http://localhost:${PORT}`;
 
-// ═══ Middleware ═══
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
-app.use(
-  session({
-    secret: process.env.SESSION_SECRET || "stack-game-change-this-secret",
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      secure: process.env.NODE_ENV === "production",
-      httpOnly: true,
-      maxAge: 30 * 24 * 60 * 60 * 1000,
-    },
-  })
-);
+app.use(session({
+  secret: process.env.SESSION_SECRET || "stack-game-change-this",
+  resave: false, saveUninitialized: false,
+  cookie: { secure: process.env.NODE_ENV === "production", httpOnly: true, maxAge: 30*24*60*60*1000 }
+}));
 app.use(passport.initialize());
 app.use(passport.session());
 
-// ═══ Passport ═══
-passport.serializeUser((user, done) => done(null, user.id));
-passport.deserializeUser((id, done) => {
-  const user = stmts.findUserById.get(id);
-  done(null, user || null);
-});
+passport.serializeUser((u, d) => d(null, u.id));
+passport.deserializeUser((id, d) => { d(null, stmts.findUserById.get(id) || null); });
 
-function findOrCreateUser(provider, profile) {
-  let user = stmts.findUser.get(provider, profile.id);
-  if (!user) {
-    const result = stmts.createUser.run(
-      provider, profile.id,
-      profile.displayName || "Player",
-      profile.emails?.[0]?.value || null,
-      profile.photos?.[0]?.value || null
-    );
-    user = stmts.findUserById.get(result.lastInsertRowid);
+function findOrCreate(prov, prof) {
+  let u = stmts.findUser.get(prov, prof.id);
+  if (!u) {
+    const r = stmts.createUser.run(prov, prof.id, prof.displayName || "Player", prof.emails?.[0]?.value || null, prof.photos?.[0]?.value || null);
+    u = stmts.findUserById.get(r.lastInsertRowid);
   } else {
-    stmts.updateProfile.run(
-      profile.displayName || user.display_name,
-      profile.emails?.[0]?.value || user.email,
-      profile.photos?.[0]?.value || user.avatar_url,
-      user.id
-    );
-    user = stmts.findUserById.get(user.id);
+    stmts.updateProfile.run(prof.displayName || u.display_name, prof.emails?.[0]?.value || u.email, prof.photos?.[0]?.value || u.avatar_url, u.id);
+    u = stmts.findUserById.get(u.id);
   }
-  return user;
+  return u;
 }
 
-// ═══ Google OAuth ═══
 if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
-  const GoogleStrategy = require("passport-google-oauth20").Strategy;
-  passport.use(new GoogleStrategy({
-    clientID: process.env.GOOGLE_CLIENT_ID,
-    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: `${BASE_URL}/auth/google/callback`,
-  }, (a, r, profile, done) => done(null, findOrCreateUser("google", profile))));
+  const G = require("passport-google-oauth20").Strategy;
+  passport.use(new G({ clientID: process.env.GOOGLE_CLIENT_ID, clientSecret: process.env.GOOGLE_CLIENT_SECRET, callbackURL: `${BASE_URL}/auth/google/callback` },
+    (a, r, p, d) => d(null, findOrCreate("google", p))));
   app.get("/auth/google", passport.authenticate("google", { scope: ["profile", "email"] }));
-  app.get("/auth/google/callback",
-    passport.authenticate("google", { failureRedirect: "/?auth=failed" }),
-    (req, res) => res.redirect("/?auth=success"));
-  console.log("  ✅ Google OAuth ready");
-} else {
-  console.log("  ⚠️  Google OAuth not configured");
-}
+  app.get("/auth/google/callback", passport.authenticate("google", { failureRedirect: "/?auth=failed" }), (q, r) => r.redirect("/?auth=success"));
+  console.log("  Google OAuth ready");
+} else console.log("  Google not configured");
 
-// ═══ LinkedIn OAuth ═══
 if (process.env.LINKEDIN_CLIENT_ID && process.env.LINKEDIN_CLIENT_SECRET) {
-  const LinkedInStrategy = require("passport-linkedin-oauth2").Strategy;
-  passport.use(new LinkedInStrategy({
-    clientID: process.env.LINKEDIN_CLIENT_ID,
-    clientSecret: process.env.LINKEDIN_CLIENT_SECRET,
-    callbackURL: `${BASE_URL}/auth/linkedin/callback`,
-    scope: ["openid", "profile", "email"],
-  }, (a, r, profile, done) => done(null, findOrCreateUser("linkedin", profile))));
+  const L = require("passport-linkedin-oauth2").Strategy;
+  passport.use(new L({ clientID: process.env.LINKEDIN_CLIENT_ID, clientSecret: process.env.LINKEDIN_CLIENT_SECRET, callbackURL: `${BASE_URL}/auth/linkedin/callback`, scope: ["openid", "profile", "email"] },
+    (a, r, p, d) => d(null, findOrCreate("linkedin", p))));
   app.get("/auth/linkedin", passport.authenticate("linkedin"));
-  app.get("/auth/linkedin/callback",
-    passport.authenticate("linkedin", { failureRedirect: "/?auth=failed" }),
-    (req, res) => res.redirect("/?auth=success"));
-  console.log("  ✅ LinkedIn OAuth ready");
-} else {
-  console.log("  ⚠️  LinkedIn OAuth not configured");
+  app.get("/auth/linkedin/callback", passport.authenticate("linkedin", { failureRedirect: "/?auth=failed" }), (q, r) => r.redirect("/?auth=success"));
+  console.log("  LinkedIn OAuth ready");
+} else console.log("  LinkedIn not configured");
+
+const anonFind = db.prepare("SELECT * FROM users WHERE provider='anon' AND provider_id=?");
+const anonUpdate = db.prepare("UPDATE users SET display_name=?, best_score=MAX(best_score,?), games_played=games_played+1, total_perfects=total_perfects+?, best_combo=MAX(best_combo,?), total_score=total_score+?, xp=xp+?, updated_at=CURRENT_TIMESTAMP WHERE id=?");
+
+function getAnon(devId, name) {
+  let u = anonFind.get(devId);
+  if (!u) { const r = stmts.createUser.run("anon", devId, name || "Player", null, null); u = stmts.findUserById.get(r.lastInsertRowid); }
+  return u;
 }
 
-// ═══ API Routes ═══
-app.get("/api/me", (req, res) => {
-  if (!req.user) return res.json({ loggedIn: false });
-  const u = req.user;
-  res.json({ loggedIn: true, user: {
-    id: u.id, name: u.display_name, email: u.email, avatar: u.avatar_url,
-    provider: u.provider, bestScore: u.best_score, gamesPlayed: u.games_played,
-    totalPerfects: u.total_perfects, bestCombo: u.best_combo,
-    totalScore: u.total_score, xp: u.xp,
-    achievements: JSON.parse(u.achievements || "[]"),
-  }});
+app.get("/api/check-name", (req, res) => {
+  const name = (req.query.name || "").trim();
+  if (!name || name.length < 2) return res.json({ available: false });
+  if (name === "Guest" || name === "Player") return res.json({ available: false });
+  const existing = db.prepare("SELECT id FROM users WHERE LOWER(display_name)=LOWER(?)").get(name);
+  const userId = req.query.deviceId ? (anonFind.get(req.query.deviceId)?.id || -1) : -1;
+  if (existing && existing.id !== userId) return res.json({ available: false });
+  res.json({ available: true });
 });
 
 app.post("/api/score", (req, res) => {
-  if (!req.user) return res.status(401).json({ error: "Not logged in" });
-  const { score, maxCombo, perfects, zone, xpEarned, achievements } = req.body;
+  const { score, maxCombo, perfects, zone, xpEarned, deviceId, playerName } = req.body;
   if (typeof score !== "number" || score < 0) return res.status(400).json({ error: "Invalid" });
-  stmts.insertScore.run(req.user.id, score, maxCombo || 0, perfects || 0, zone || "");
-  const merged = [...new Set([...JSON.parse(req.user.achievements || "[]"), ...(achievements || [])])];
-  stmts.updateStats.run(score, perfects || 0, maxCombo || 0, score, xpEarned || 0, JSON.stringify(merged), req.user.id);
-  const updated = stmts.findUserById.get(req.user.id);
-  res.json({ success: true, user: { bestScore: updated.best_score, gamesPlayed: updated.games_played, xp: updated.xp }});
+  let user = req.user || (deviceId ? getAnon(deviceId, playerName || "Player") : null);
+  if (!user) return res.status(400).json({ error: "Need deviceId" });
+  let finalName = user.display_name;
+  if (playerName && playerName !== "Guest" && playerName !== user.display_name) {
+    const taken = db.prepare("SELECT id FROM users WHERE LOWER(display_name)=LOWER(?) AND id!=?").get(playerName, user.id);
+    if (!taken) finalName = playerName;
+  }
+  stmts.insertScore.run(user.id, score, maxCombo || 0, perfects || 0, zone || "");
+  anonUpdate.run(finalName, score, perfects || 0, maxCombo || 0, score, xpEarned || 0, user.id);
+  res.json({ success: true });
+});
+
+app.post("/api/sync", (req, res) => {
+  const { scores, deviceId, playerName } = req.body;
+  if (!Array.isArray(scores) || !deviceId) return res.status(400).json({ error: "Invalid" });
+  const user = getAnon(deviceId, playerName || "Player");
+  let synced = 0;
+  for (const s of scores) {
+    if (typeof s.score === "number" && s.score >= 0) {
+      stmts.insertScore.run(user.id, s.score, s.maxCombo || 0, s.perfects || 0, s.zone || "");
+      anonUpdate.run(playerName || user.display_name, s.score, s.perfects || 0, s.maxCombo || 0, s.score, s.xpEarned || 0, user.id);
+      synced++;
+    }
+  }
+  res.json({ success: true, synced });
 });
 
 app.get("/api/leaderboard", (req, res) => {
   const rows = stmts.getLeaderboard.all();
-  res.json({ leaderboard: rows.map(r => ({ id: r.id, name: r.display_name, score: r.best_score, xp: r.xp })) });
+  res.json({ leaderboard: rows.filter(r => r.best_score > 0).map(r => ({ id: r.id, name: r.display_name, score: r.best_score, xp: r.xp })) });
+});
+
+app.get("/api/me", (req, res) => {
+  if (!req.user) return res.json({ loggedIn: false });
+  res.json({ loggedIn: true, user: { id: req.user.id, name: req.user.display_name, bestScore: req.user.best_score } });
 });
 
 app.get("/api/auth-providers", (req, res) => {
-  res.json({
-    google: !!(process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET),
-    linkedin: !!(process.env.LINKEDIN_CLIENT_ID && process.env.LINKEDIN_CLIENT_SECRET),
-    apple: false,
-  });
+  res.json({ google: !!(process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET), linkedin: !!(process.env.LINKEDIN_CLIENT_ID && process.env.LINKEDIN_CLIENT_SECRET), apple: false });
 });
 
-app.post("/auth/logout", (req, res) => {
-  req.logout(() => { req.session.destroy(); res.json({ success: true }); });
-});
-
+app.post("/auth/logout", (req, res) => { req.logout(() => { req.session.destroy(); res.json({ success: true }); }); });
 app.get("/", (req, res) => res.sendFile(path.join(__dirname, "public", "index.html")));
 
-// ═══ Get local IP for network access ═══
-function getLocalIP() {
-  const nets = os.networkInterfaces();
-  for (const name of Object.keys(nets)) {
-    for (const net of nets[name]) {
-      if (net.family === "IPv4" && !net.internal) return net.address;
-    }
-  }
-  return "localhost";
-}
+function getLocalIP() { const n = os.networkInterfaces(); for (const k of Object.keys(n)) for (const i of n[k]) if (i.family === "IPv4" && !i.internal) return i.address; return "localhost"; }
 
-// ═══ Start — bind to 0.0.0.0 so other devices can connect ═══
 app.listen(PORT, "0.0.0.0", () => {
   const ip = getLocalIP();
-  console.log(`
-╔═══════════════════════════════════════════════════════╗
-║  🏗️  STACK Game Server — by bbmw0                     ║
-╠═══════════════════════════════════════════════════════╣
-║                                                       ║
-║  ✅ On this computer:  http://localhost:${PORT}           ║
-║  ✅ On your iPhone:    http://${ip}:${PORT}       ║
-║  ✅ Anyone on WiFi:    http://${ip}:${PORT}       ║
-║                                                       ║
-║  To share worldwide, deploy to Render.com (free)      ║
-║  See DEPLOY.md for step-by-step instructions          ║
-║                                                       ║
-╚═══════════════════════════════════════════════════════╝
-  `);
+  console.log(`\n  STACK Server — by bbmw0\n  Local:   http://localhost:${PORT}\n  Network: http://${ip}:${PORT}\n`);
 });
