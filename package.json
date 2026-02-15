@@ -1,0 +1,22 @@
+{
+  "name": "stack-game",
+  "version": "2.0.0",
+  "description": "STACK — addictive block stacking game by bbmw0",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "passport": "^0.7.0",
+    "passport-google-oauth20": "^2.0.0",
+    "passport-linkedin-oauth2": "^2.0.0",
+    "better-sqlite3": "^11.0.0",
+    "dotenv": "^16.3.1",
+    "cors": "^2.8.5"
+  }
+}
