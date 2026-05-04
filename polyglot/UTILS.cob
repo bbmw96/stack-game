@@ -1,0 +1,12 @@
+      *> COBOL utility — numeric formatting
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. UTILS.
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       01 WS-NUMBER     PIC 9(9)V99.
+       01 WS-FORMATTED  PIC $ZZZ,ZZZ,ZZ9.99.
+       PROCEDURE DIVISION.
+           MOVE 1234567.89 TO WS-NUMBER
+           MOVE WS-NUMBER  TO WS-FORMATTED
+           DISPLAY WS-FORMATTED
+           STOP RUN.
