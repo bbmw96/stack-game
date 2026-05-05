@@ -123,5 +123,5 @@ function getLocalIP() { const n = os.networkInterfaces(); for (const k of Object
 
 app.listen(PORT, "0.0.0.0", () => {
   const ip = getLocalIP();
-  console.log(`\n  STACK Server — by bbmw0\n  Local:   http://localhost:${PORT}\n  Network: http://${ip}:${PORT}\n`);
+  console.log(`\n  STACK Server - by bbmw0\n  Local:   http://localhost:${PORT}\n  Network: http://${ip}:${PORT}\n`);
 });

@@ -1,4 +1,4 @@
-;; Scheme utility — higher-order helpers
+;; Scheme utility - higher-order helpers
 (define (compose . fns)
   (if (null? fns)
       (lambda (x) x)

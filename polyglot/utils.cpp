@@ -1,4 +1,4 @@
-// C++ utility — vector helpers
+// C++ utility - vector helpers
 #include <vector>
 #include <numeric>
 #include <algorithm>

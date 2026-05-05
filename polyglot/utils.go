@@ -1,4 +1,4 @@
-// Go utility — string helpers
+// Go utility - string helpers
 package utils
 
 import (

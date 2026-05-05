@@ -1,4 +1,4 @@
--- Haskell utility — list helpers
+-- Haskell utility - list helpers
 module Utils where
 
 chunks :: Int -> [a] -> [[a]]

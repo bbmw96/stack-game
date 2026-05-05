@@ -1,4 +1,4 @@
-# Elixir utility — map helpers
+# Elixir utility - map helpers
 defmodule Utils do
   def deep_merge(left, right) when is_map(left) and is_map(right) do
     Map.merge(left, right, fn _k, l, r -> deep_merge(l, r) end)

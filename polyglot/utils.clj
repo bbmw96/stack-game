@@ -1,4 +1,4 @@
-;; Clojure utility — sequence helpers
+;; Clojure utility - sequence helpers
 (ns utils)
 
 (defn take-while-inc [pred coll]

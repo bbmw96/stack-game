@@ -1,4 +1,4 @@
-! Fortran utility — statistical helpers
+! Fortran utility - statistical helpers
 module utils
   implicit none
 contains

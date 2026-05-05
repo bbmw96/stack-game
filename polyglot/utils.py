@@ -1,4 +1,4 @@
-# Python utility — string helpers
+# Python utility - string helpers
 def slugify(text: str) -> str:
     import re
     text = text.lower().strip()

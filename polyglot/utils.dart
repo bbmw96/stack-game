@@ -1,4 +1,4 @@
-// Dart utility — list helpers
+// Dart utility - list helpers
 List<List<T>> chunk<T>(List<T> list, int size) {
   final chunks = <List<T>>[];
   for (var i = 0; i < list.length; i += size) {

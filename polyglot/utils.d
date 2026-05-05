@@ -1,4 +1,4 @@
-// D utility — array helpers
+// D utility - array helpers
 module utils;
 
 T[] unique(T)(T[] arr) {

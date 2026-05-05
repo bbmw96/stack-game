@@ -1,7 +1,7 @@
 {
   "name": "stack-game",
   "version": "2.0.0",
-  "description": "STACK — addictive block stacking game by bbmw0",
+  "description": "STACK - addictive block stacking game by bbmw0",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"

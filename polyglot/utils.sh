@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Bash utility — file/string helpers
+# Bash utility - file/string helpers
 
 trim() { echo "${1}" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//'; }
 

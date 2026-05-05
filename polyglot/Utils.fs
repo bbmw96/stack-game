@@ -1,4 +1,4 @@
-// F# utility — option helpers
+// F# utility - option helpers
 module Utils
 
 let orDefault defaultVal = function

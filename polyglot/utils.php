@@ -1,5 +1,5 @@
 <?php
-// PHP utility — array helpers
+// PHP utility - array helpers
 function array_pluck(array $arr, string $key): array {
     return array_map(fn($item) => $item[$key] ?? null, $arr);
 }

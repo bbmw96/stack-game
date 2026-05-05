@@ -1,4 +1,4 @@
-# PowerShell utility — system helpers
+# PowerShell utility - system helpers
 function Get-SizeLabel {
     param([long]$Bytes)
     switch ($Bytes) {

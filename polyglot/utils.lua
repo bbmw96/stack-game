@@ -1,4 +1,4 @@
--- Lua utility — table helpers
+-- Lua utility - table helpers
 local M = {}
 
 function M.keys(t)

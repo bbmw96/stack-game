@@ -1,4 +1,4 @@
-# Crystal utility — time helpers
+# Crystal utility - time helpers
 module Utils
   def self.age_years(dob : Time) : Int32
     now = Time.utc

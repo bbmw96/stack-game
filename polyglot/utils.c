@@ -1,4 +1,4 @@
-/* C utility — numeric helpers */
+/* C utility - numeric helpers */
 #include <stdio.h>
 
 int gcd(int a, int b) {

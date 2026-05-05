@@ -1,4 +1,4 @@
-{ Pascal utility — string helpers }
+{ Pascal utility - string helpers }
 unit Utils;
 
 interface

@@ -1,4 +1,4 @@
-# Ruby utility — string helpers
+# Ruby utility - string helpers
 module Utils
   def self.camel_to_snake(str)
     str.gsub(/([A-Z]+)([A-Z][a-z])/, '\1_\2')

@@ -1,4 +1,4 @@
-# Nim utility — string helpers
+# Nim utility - string helpers
 proc slugify*(s: string): string =
   result = ""
   for c in s.toLowerAscii():

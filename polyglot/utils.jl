@@ -1,4 +1,4 @@
-# Julia utility — numeric helpers
+# Julia utility - numeric helpers
 module Utils
 
 export clamp_val, sigmoid, relu

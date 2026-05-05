@@ -1,4 +1,4 @@
-      *> COBOL utility — numeric formatting
+      *> COBOL utility - numeric formatting
        IDENTIFICATION DIVISION.
        PROGRAM-ID. UTILS.
        DATA DIVISION.

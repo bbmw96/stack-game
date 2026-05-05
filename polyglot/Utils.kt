@@ -1,4 +1,4 @@
-// Kotlin utility — collection helpers
+// Kotlin utility - collection helpers
 fun <T> List<T>.second(): T? = if (size >= 2) this[1] else null
 
 fun String.words(): List<String> = trim().split(Regex("\s+"))

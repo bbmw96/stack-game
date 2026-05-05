@@ -1,4 +1,4 @@
-(* OCaml utility — list helpers *)
+(* OCaml utility - list helpers *)
 let rec take n = function
   | [] -> []
   | x :: xs -> if n <= 0 then [] else x :: take (n - 1) xs

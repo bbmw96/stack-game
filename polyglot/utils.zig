@@ -1,4 +1,4 @@
-// Zig utility — math helpers
+// Zig utility - math helpers
 const std = @import("std");
 
 pub fn clamp(comptime T: type, val: T, lo: T, hi: T) T {

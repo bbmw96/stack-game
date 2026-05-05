@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
-<title>SYNAPSE — Neural Architecture Builder</title>
+<title>SYNAPSE - Neural Architecture Builder</title>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#03060f">
-<meta name="description" content="SYNAPSE — Place neurons, build synaptic connections, wake up an AI consciousness.">
+<meta name="description" content="SYNAPSE - Place neurons, build synaptic connections, wake up an AI consciousness.">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{width:100%;height:100%;overflow:hidden;background:#03060f;font-family:'Courier New',monospace;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}
@@ -195,11 +195,11 @@ var thoughtShowing=false;
 
 /* ── Neurotransmitters ── */
 var NEUROS=[
-  {id:"serotonin", l:"SEROTONIN",  c:"#34d399",bg:"rgba(52,211,153,0.1)", bd:"rgba(52,211,153,0.2)", d:"Slows oscillation — calm precision"},
-  {id:"dopamine",  l:"DOPAMINE",   c:"#fbbf24",bg:"rgba(251,191,36,0.1)", bd:"rgba(251,191,36,0.2)", d:"Next neuron widens — reward signal"},
-  {id:"adrenaline",l:"ADRENALINE", c:"#f87171",bg:"rgba(248,113,113,0.1)",bd:"rgba(248,113,113,0.2)",d:"Speed burst — heightened state"},
-  {id:"gaba",      l:"GABA",       c:"#a5b4fc",bg:"rgba(165,180,252,0.1)",bd:"rgba(165,180,252,0.2)",d:"Smooth oscillation — inhibitory calm"},
-  {id:"glutamate", l:"GLUTAMATE",  c:"#f9a8d4",bg:"rgba(249,168,212,0.1)",bd:"rgba(249,168,212,0.2)",d:"Auto-snap — excitatory alignment"},
+  {id:"serotonin", l:"SEROTONIN",  c:"#34d399",bg:"rgba(52,211,153,0.1)", bd:"rgba(52,211,153,0.2)", d:"Slows oscillation - calm precision"},
+  {id:"dopamine",  l:"DOPAMINE",   c:"#fbbf24",bg:"rgba(251,191,36,0.1)", bd:"rgba(251,191,36,0.2)", d:"Next neuron widens - reward signal"},
+  {id:"adrenaline",l:"ADRENALINE", c:"#f87171",bg:"rgba(248,113,113,0.1)",bd:"rgba(248,113,113,0.2)",d:"Speed burst - heightened state"},
+  {id:"gaba",      l:"GABA",       c:"#a5b4fc",bg:"rgba(165,180,252,0.1)",bd:"rgba(165,180,252,0.2)",d:"Smooth oscillation - inhibitory calm"},
+  {id:"glutamate", l:"GLUTAMATE",  c:"#f9a8d4",bg:"rgba(249,168,212,0.1)",bd:"rgba(249,168,212,0.2)",d:"Auto-snap - excitatory alignment"},
 ];
 
 /* ── Persist ── */
@@ -446,7 +446,7 @@ function endGame(s){
   setTimeout(function(){$("ovG").classList.remove("hide");},380);
 }
 
-/* ── Codex builder (all hardcoded constants — no user data) ── */
+/* ── Codex builder (all hardcoded constants - no user data) ── */
 function buildCodex(){
   var gl=$("gdL");clr(gl);
   PHASES.forEach(function(p,i){
@@ -506,7 +506,7 @@ function rP(){
 /* ── Share ── */
 function shareG(){
   var u=window.location.href;
-  var t="SYNAPSE — Neural Architecture Builder\nPlace neurons. Build consciousness. Wake the AI.\n\nPlay: "+u+"\n\nby bbmw0 - BBMW0 Technologies";
+  var t="SYNAPSE - Neural Architecture Builder\nPlace neurons. Build consciousness. Wake the AI.\n\nPlay: "+u+"\n\nby bbmw0 - BBMW0 Technologies";
   if(navigator.share)navigator.share({title:"SYNAPSE",text:t,url:u}).catch(function(){});
   else navigator.clipboard.writeText(t).then(function(){alert("Link copied!");}).catch(function(){});
 }

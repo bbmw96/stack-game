@@ -1,4 +1,4 @@
-# R utility — statistical helpers
+# R utility - statistical helpers
 normalize <- function(x) {
   (x - min(x)) / (max(x) - min(x))
 }

@@ -1,4 +1,4 @@
-# CoffeeScript utility — async helpers
+# CoffeeScript utility - async helpers
 sleep = (ms) -> new Promise (resolve) -> setTimeout resolve, ms
 
 retry = (fn, attempts = 3) ->

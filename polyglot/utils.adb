@@ -1,4 +1,4 @@
--- Ada utility — safe division
+-- Ada utility - safe division
 package body Utils is
    function Safe_Divide (A, B : Float) return Float is
    begin

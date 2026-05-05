@@ -1,4 +1,4 @@
-# Erlang-style Elixir — process helpers
+# Erlang-style Elixir - process helpers
 defmodule ProcUtils do
   def retry(fun, attempts \\ 3) do
     try do

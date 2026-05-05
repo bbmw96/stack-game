@@ -1,4 +1,4 @@
-;;; Common Lisp utility — list helpers
+;;; Common Lisp utility - list helpers
 (defun flatten (lst)
   (cond ((null lst) nil)
         ((consp (car lst)) (append (flatten (car lst)) (flatten (cdr lst))))

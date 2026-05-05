@@ -1,4 +1,4 @@
-// Swift utility — color helpers
+// Swift utility - color helpers
 import Foundation
 
 struct Hex {

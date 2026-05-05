@@ -1,4 +1,4 @@
-// Java utility — array helpers
+// Java utility - array helpers
 import java.util.Arrays;
 
 public class Utils {

@@ -1,4 +1,4 @@
-% Prolog utility — list predicates
+% Prolog utility - list predicates
 :- module(utils, [my_length/2, my_last/2, my_nth/3]).
 
 my_length([], 0).

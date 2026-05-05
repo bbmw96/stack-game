@@ -1,4 +1,4 @@
-// TypeScript utility — date helpers
+// TypeScript utility - date helpers
 export function formatDate(date: Date, locale = 'en-GB'): string {
   return date.toLocaleDateString(locale, {
     year: 'numeric', month: 'long', day: 'numeric'

@@ -1,4 +1,4 @@
-// Groovy utility — map helpers
+// Groovy utility - map helpers
 class Utils {
     static Map deepMerge(Map base, Map override) {
         override.each { k, v ->

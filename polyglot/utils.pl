@@ -1,5 +1,5 @@
 #!/usr/bin/perl
-# Perl utility — text helpers
+# Perl utility - text helpers
 use strict;
 use warnings;
 
